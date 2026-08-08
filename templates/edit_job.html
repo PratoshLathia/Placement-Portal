@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Job{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+
+    <div class="card bg-dark text-light border-secondary p-4" style="max-width: 600px; width: 100%;">
+
+        <h3 class="text-center mb-4">Edit Job</h3>
+
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">Job Title</label>
+                <input type="text" name="title" class="form-control" value="{{ job.title }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="4">{{ job.description }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Skills</label>
+                <input type="text" name="skills" class="form-control" value="{{ job.skills }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Experience</label>
+                <input type="text" name="experience" class="form-control" value="{{ job.experience }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Salary</label>
+                <input type="text" name="salary" class="form-control" value="{{ job.salary }}" required>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Update Job</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

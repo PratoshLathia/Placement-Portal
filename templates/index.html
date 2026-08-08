@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<style>
+    .custom-card {
+        background-color: #020617;
+        border: 1px solid #1e293b;
+        transition: all 0.3s ease;
+    }
+
+    .custom-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        border-color: #38bdf8;
+    }
+
+    .custom-card h5 {
+        transition: 0.3s;
+    }
+
+    .custom-card:hover h5 {
+        color: #38bdf8;
+    }
+</style>
+
+
+<section class="py-5 text-center">
+    <div class="container">
+
+        <h1 class="display-5 fw-bold">Campus Placement Portal</h1>
+
+        <p class="lead text-secondary">
+            Smart platform connecting Students, Companies, and Admins seamlessly
+        </p>
+
+        <div class="mt-4">
+            {% if session.get('role') == 'student' %}
+            <a href="/student_dashboard" class="btn btn-info btn-lg">Student Dashboard</a>
+            {% elif session.get('role') == 'company' %}
+            <a href="/company_dashboard" class="btn btn-info btn-lg">Company Dashboard</a>
+            {% elif session.get('role') == 'admin' %}
+            <a href="/admin_dashboard" class="btn btn-danger btn-lg">Admin Dashboard</a>
+            {% else %}
+            <a href="/register" class="btn btn-success btn-lg">Start Your Journey</a>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+
+
+<section class="container py-5">
+
+    <h2 class="text-center mb-5">Why Use Our Portal?</h2>
+
+    <div class="row g-4">
+
+
+        <div class="col-md-4">
+            <div class="card custom-card text-light h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Student Management</h5>
+                    <p class="card-text">
+                        Create profiles, upload resumes, and track job applications easily.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card custom-card text-light h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Company Hiring</h5>
+                    <p class="card-text">
+                        Companies can post jobs and hire eligible students efficiently.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card custom-card text-light h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Admin Dashboard</h5>
+                    <p class="card-text">
+                        Complete control over approvals, users, and placement records.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

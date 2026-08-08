@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Company Profile{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+
+    <div class="card bg-dark text-light border-secondary p-4" style="max-width: 500px; width: 100%;">
+
+        <h3 class="text-center mb-4">Company Profile</h3>
+
+        <form action="/company_profile" method="POST">
+
+            <div class="mb-3">
+                <input type="text" name="company_name" class="form-control" placeholder="Company Name" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="text" name="industry" class="form-control" placeholder="Industry" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="text" name="website" class="form-control" placeholder="Website" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="text" name="location" class="form-control" placeholder="Location" required>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-info">Save Profile</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

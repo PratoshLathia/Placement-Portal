@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Student Details{% endblock %}
+
+{% block content %}
+
+<style>
+    .custom-card {
+        background-color: #020617;
+        border: 1px solid #1e293b;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+    .custom-card:hover {
+        border-color: #38bdf8;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .muted-text {
+        color: #94a3b8;
+    }
+</style>
+
+<div class="container py-4">
+
+    <h3 class="mb-4">Student Details</h3>
+
+
+    <div class="card custom-card text-light mb-4">
+        <div class="card-body">
+
+            <h5 class="mb-3">Basic Info</h5>
+
+            <p><b>Name:</b> {{ user.name }}</p>
+            <p><b>Email:</b> {{ user.email }}</p>
+
+            {% if student%}
+            <p><b>Department:</b> {{ student.department }}</p>
+            <p>
+                <b>CGPA:</b>
+                <span class="text-info fw-bold">{{ student.cgpa }}</span>
+            </p>
+
+            <p><b>Skills:</b> {{ student.skills }}</p>
+
+            {% if student.resume %}
+            <a href="{{ url_for('static', filename='uploads/' + student.resume) }}" class="btn btn-primary btn-sm mt-2">
+                Resume
+            </a>
+            {% endif %}
+
+            {% else %}
+            <p class="text-warning">⚠ Profile not completed</p>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+    <h5 class="mb-3" style="color:#38bdf8;">Applications</h5>
+
+    {% if applications %}
+
+    <div class="row g-4">
+
+        {% for app in applications %}
+        <div class="col-md-6">
+
+            <div class="card custom-card text-light h-100">
+                <div class="card-body">
+
+                    <h6 class="mb-2">
+                        {{ app.job.title }}
+                    </h6>
+
+                    <p class="mb-1">
+                        <b>Company:</b> {{ app.job.company.company_name }}
+                    </p>
+
+
+                    <p class="mb-1">
+                        <b>Status:</b>
+
+                        {% if app.status == "Applied" %}
+                        <span class="badge bg-info">Applied</span>
+                        {% elif app.status == "Shortlisted" %}
+                        <span class="badge bg-warning text-dark">Shortlisted</span>
+                        {% elif app.status == "Selected" %}
+                        <span class="badge bg-success">Selected</span>
+                        {% else %}
+                        <span class="badge bg-danger">Rejected</span>
+                        {% endif %}
+                    </p>
+
+                    <p class="muted-text">
+                        Applied on: {{ app.applied_at.strftime("%d %b %Y") }}
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+    <p class="muted-text">No applications yet.</p>
+    {% endif %}
+
+
+    <div class="mt-4">
+        <a href="/admin_dashboard" class="btn btn-secondary">
+            ⬅ Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

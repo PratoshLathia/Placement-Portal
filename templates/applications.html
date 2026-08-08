@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Applications{% endblock %}
+
+{% block content %}
+
+<style>
+    .custom-card {
+        background-color: #020617;
+        border: 1px solid #1e293b;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+    .custom-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        border-color: #38bdf8;
+    }
+</style>
+
+<div class="container py-4">
+
+    <h3 class="mb-4">Applicants</h3>
+
+    {% if applications %}
+
+    <div class="row g-4">
+
+        {% for app in applications %}
+        <div class="col-md-6">
+            <div class="card custom-card text-light h-100">
+                <div class="card-body">
+
+                    <h5 class="mb-2">Student ID: {{ app.student_id }}</h5>
+
+
+                    <p class="mb-2">
+                        <b>Status:</b>
+
+                        {% if app.status == "Applied" %}
+                        <span class="badge bg-info">Applied</span>
+                        {% elif app.status == "Shortlisted" %}
+                        <span class="badge bg-warning text-dark">Shortlisted</span>
+                        {% elif app.status == "Selected" %}
+                        <span class="badge bg-success">Selected</span>
+                        {% else %}
+                        <span class="badge bg-danger">Rejected</span>
+                        {% endif %}
+                    </p>
+
+                    <p class="text-secondary">
+                        Applied on: {{ app.applied_at.strftime("%d %b %Y") }}
+                    </p>
+
+
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+
+                        <a href="/toggle-status/{{ app.id }}/shortlist" class="btn btn-warning btn-sm">
+                            {% if app.status == "Shortlisted" %}
+                            🔁 Unshortlist
+                            {% else %}
+                            ⭐ Shortlist
+                            {% endif %}
+                        </a>
+
+                        <a href="/toggle-status/{{ app.id }}/select" class="btn btn-success btn-sm">
+                            {% if app.status == "Selected" %}
+                            🔁 Unselect
+                            {% else %}
+                            ✅ Select
+                            {% endif %}
+                        </a>
+
+                        <a href="/toggle-status/{{ app.id }}/reject" class="btn btn-danger btn-sm">
+                            {% if app.status == "Rejected" %}
+                            🔁 Unreject
+                            {% else %}
+                            ❌ Reject
+                            {% endif %}
+                        </a>
+
+                        <a href="/company/student/{{ app.student_id }}" class="btn btn-primary btn-sm">
+                            👁 View
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+    <p class="text-secondary">No applications received yet.</p>
+    {% endif %}
+
+
+    <div class="mt-4">
+        <a href="/company_dashboard" class="btn btn-secondary">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

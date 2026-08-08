@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Company Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+    .custom-card {
+        background-color: #020617;
+        border: 1px solid #1e293b;
+        transition: 0.3s;
+    }
+
+    .custom-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        border-color: #38bdf8;
+    }
+</style>
+
+<div class="container py-4">
+
+
+    <div class="card custom-card text-light mb-4">
+        <div class="card-body">
+            <h4 class="mb-3">🏢 Company Profile</h4>
+
+            {% if company %}
+            <p><b>Name:</b> {{ company.company_name }}</p>
+            <p><b>Industry:</b> {{ company.industry }}</p>
+            <p><b>Website:</b> {{ company.website }}</p>
+            <p><b>Location:</b> {{ company.location }}</p>
+
+            <a href="/company_profile" class="btn btn-info mt-2">Edit Profile</a>
+            {% else %}
+            <p class="text-warning">⚠ Profile Incomplete</p>
+            <a href="/company_profile" class="btn btn-warning">Complete Profile</a>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <h4 class="text-info mb-3">Shortlisted Students</h4>
+
+    {% if shortlisted %}
+    <div class="row g-3 mb-4">
+        {% for app in shortlisted %}
+        <div class="col-md-4">
+            <div class="card custom-card text-light h-100">
+                <div class="card-body">
+                    <p><b>Name:</b> {{ app.student.user.name }}</p>
+                    <p><b>Email:</b> {{ app.student.user.email }}</p>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <a href="/toggle-status/{{ app.id }}/select" class="btn btn-danger btn-sm">
+                            Remove
+                        </a>
+
+                        <a href="/company/student/{{ app.student_id }}" class="btn btn-primary btn-sm">
+                            View
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-secondary">No shortlisted students yet.</p>
+    {% endif %}
+
+
+    <h4 class="text-info mb-3">Selected Students</h4>
+
+    {% if selected %}
+    <div class="row g-3 mb-4">
+        {% for app in selected %}
+        <div class="col-md-4">
+            <div class="card custom-card text-light h-100">
+                <div class="card-body">
+                    <p><b>Name:</b> {{ app.student.user.name }}</p>
+                    <p><b>Email:</b> {{ app.student.user.email }}</p>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <a href="/toggle-status/{{ app.id }}/select" class="btn btn-warning btn-sm">
+                            Shortlist
+                        </a>
+
+                        <a href="/toggle-status/{{ app.id }}/reject" class="btn btn-danger btn-sm">
+                            Remove
+                        </a>
+
+                        <a href="/company/student/{{ app.student_id }}" class="btn btn-primary btn-sm">
+                            View
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-secondary">No selected students yet.</p>
+    {% endif %}
+
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Your Job Posts</h3>
+        <a href="/post-job" class="btn btn-success">Post New Job</a>
+    </div>
+
+    {% if jobs %}
+    <div class="row g-4">
+
+        {% for item in jobs %}
+        {% set job = item.job %}
+
+        <div class="col-md-6">
+            <div class="card custom-card text-light h-100">
+                <div class="card-body">
+
+                    <h5 class="card-title">{{ job.title }}</h5>
+                    <p>{{ job.description }}</p>
+
+                    <p><b>Skills:</b> {{ job.skills }}</p>
+                    <p><b>Experience:</b> {{ job.experience }}</p>
+                    <p><b>Salary:</b> {{ job.salary }}</p>
+
+                    <p>
+                        <b>Applications:</b>
+                        <span class="text-info fw-bold">{{ item.total_apps }}</span>
+                    </p>
+
+                    <p>
+                        <b>Approval:</b>
+                        {% if job.is_approved == 0 %}
+                        <span class="text-warning">Pending</span>
+                        {% else %}
+                        <span class="text-success">Approved</span>
+                        {% endif %}
+                    </p>
+
+                    <p>
+                        <b>Status:</b>
+                        {% if job.is_closed %}
+                        <span class="text-danger">Closed</span>
+                        {% else %}
+                        <span class="text-success">Active</span>
+                        {% endif %}
+                    </p>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <a href="/job-applications/{{ job.id }}" class="btn btn-info btn-sm">
+                            Applicants
+                        </a>
+
+                        <a href="/toggle-job/{{ job.id }}" class="btn btn-warning btn-sm">
+                            {% if job.is_closed %}Activate{% else %}Close{% endif %}
+                        </a>
+
+                        <a href="/edit-job/{{ job.id }}" class="btn btn-primary btn-sm">
+                            Edit
+                        </a>
+
+                        <form action="/delete-job/{{ job.id }}" method="POST">
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+    {% else %}
+    <p class="text-secondary">No jobs posted yet.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

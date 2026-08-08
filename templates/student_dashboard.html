@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+    .custom-card {
+        background-color: #020617;
+        border: 1px solid #1e293b;
+        transition: 0.3s;
+    }
+
+    .custom-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        border-color: #38bdf8;
+    }
+</style>
+
+<div class="container py-4">
+
+
+    <div class="card custom-card text-light mb-4 p-3">
+        <form method="GET" action="/student_dashboard" class="d-flex gap-2">
+            <input type="text" name="search" class="form-control"
+                placeholder="Search by Company, Position, or Skills...">
+            <button class="btn btn-info">Search</button>
+        </form>
+    </div>
+
+
+    <div class="card custom-card text-light mb-4">
+        <div class="card-body">
+
+            <h4 class="mb-3">Student Profile</h4>
+
+            {% if student %}
+            <p><b>Department:</b> {{ student.department }}</p>
+            <p><b>CGPA:</b> {{ student.cgpa }}</p>
+            <p><b>Skills:</b> {{ student.skills }}</p>
+
+            {% if student.resume %}
+            <a href="{{ url_for('static', filename='uploads/' + student.resume) }}" class="btn btn-info mt-2">
+                Resume
+            </a>
+            {% endif %}
+
+            <div class="d-flex gap-2 mt-3 flex-wrap">
+                <a href="/student_profile" class="btn btn-info">Edit Profile</a>
+
+                <a href="/my_applications/{{ student.id }}" class="btn btn-warning">
+                    Application History
+                </a>
+            </div>
+
+            {% else %}
+            <p class="text-warning">⚠ Profile Incomplete</p>
+            <a href="/student_profile" class="btn btn-warning">Complete Profile</a>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+    <h3 class="mb-3">Available Jobs</h3>
+
+    {% if jobs %}
+    <div class="row g-4">
+
+        {% for job in jobs %}
+        <div class="col-md-6">
+            <div class="card custom-card text-light h-100">
+                <div class="card-body">
+
+                    <h5 class="card-title">{{ job.title }}</h5>
+
+                    <p><b>Company:</b> {{ job.company.company_name }}</p>
+                    <p>{{ job.description }}</p>
+                    <p><b>Skills:</b> {{ job.skills }}</p>
+                    <p><b>Experience:</b> {{ job.experience }}</p>
+                    <p><b>Salary:</b> {{ job.salary }}</p>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+
+                        {% if job.id in applied_job_ids %}
+                        <span class="btn btn-secondary disabled">
+                            Applied ✓ ({{ status[job.id] }})
+                        </span>
+                        {% else %}
+                        <a href="/apply-job/{{ job.id }}" class="btn btn-success">
+                            Apply
+                        </a>
+                        {% endif %}
+
+                        <a href="/company_details/{{ job.company.id }}" class="btn btn-warning">
+                            Company
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    {% else %}
+    <p class="text-secondary">No jobs available right now.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}
