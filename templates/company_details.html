@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Company Details{% endblock %}
+
+{% block content %}
+
+<style>
+    .custom-card {
+        background-color: #020617;
+        border: 1px solid #1e293b;
+        transition: 0.3s;
+    }
+
+    .custom-card:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        border-color: #38bdf8;
+    }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+
+    <div class="card custom-card text-light p-4" style="max-width: 600px; width: 100%;">
+
+        <h3 class="text-center mb-4">{{ company.company_name }}</h3>
+
+        <div class="mb-3">
+            <p><b>Industry:</b> {{ company.industry }}</p>
+            <p>
+                <b>Website:</b>
+                <a href="{{ company.website }}" target="_blank" class="text-info">
+                    {{ company.website }}
+                </a>
+            </p>
+            <p><b>Location:</b> {{ company.location }}</p>
+        </div>
+
+        <hr class="border-secondary">
+
+        <h5 class="mb-3">Contact Details</h5>
+
+        <p><b>Email:</b> {{ company.user.email }}</p>
+
+        <div class="text-center mt-4">
+            <a href="/student_dashboard" class="btn btn-secondary">
+                ⬅ Back
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

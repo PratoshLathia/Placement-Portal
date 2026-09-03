@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+
+    <div class="card bg-dark text-light border-secondary p-4" style="width: 400px;">
+
+        <h3 class="text-center mb-4">Create Account</h3>
+
+        <form action="/register" method="POST">
+
+            <div class="mb-3">
+                <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+
+            <div class="mb-3">
+                <select name="role" class="form-select" required>
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="student">Student</option>
+                    <option value="company">Company</option>
+                </select>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">Register</button>
+            </div>
+
+        </form>
+
+        <p class="text-center mt-3 mb-0">
+            Already have an account?
+            <a href="/login" class="text-info">Login</a>
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
